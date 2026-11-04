@@ -166,7 +166,7 @@ footer{padding-block:24px 30px;border-top:1px solid var(--line);font-size:.85rem
       <div style="display:flex;flex-direction:column;gap:10px">
         <h2 id="v-h">Ven a probarte la ropa</h2>
         <p class="muted">Agenda una visita en San Fabián y revisa las prendas en persona. Elige día y hora; te confirmamos por WhatsApp.</p>
-        <div class="contact"><span class="phone" id="phone">+56 9 3740 4613</span><button class="btn ghost small" id="copy" type="button">Copiar número</button></div>
+        <div class="contact"><span class="phone" id="phone"></span><button class="btn ghost small" id="copy" type="button">Copiar número</button></div>
       </div>
       <form id="f-visita">
         <div class="field"><label for="v-nombre">Tu nombre</label><input id="v-nombre" maxlength="50" required autocomplete="name"></div>
@@ -197,7 +197,12 @@ footer{padding-block:24px 30px;border-top:1px solid var(--line);font-size:.85rem
 <div id="sheet-root"></div>
 
 <script>
-const WA = "56937404613";
+/* ===== DATOS DE LA TIENDA: para cambiar el teléfono, edita solo esta línea (formato 569XXXXXXXX, sin + ni espacios) ===== */
+const TELEFONO = "56937404613";
+/* ============================================================================================================== */
+const WA = TELEFONO;
+const telVisible = "+" + TELEFONO.slice(0, 2) + " " + TELEFONO.slice(2, 3) + " " + TELEFONO.slice(3, 7) + " " + TELEFONO.slice(7);
+document.getElementById("phone").textContent = telVisible;
 let data = { prendas: [], actualizado: "" }, filtroTipo = "", bolsa = [];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const plata = n => "$" + Math.round(n || 0).toLocaleString("es-CL");
@@ -332,7 +337,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); })
 
 document.getElementById("copy").addEventListener("click", async e => {
   const b = e.currentTarget;
-  try { await navigator.clipboard.writeText("+56937404613"); b.textContent = "Copiado"; }
+  try { await navigator.clipboard.writeText("+" + TELEFONO); b.textContent = "Copiado"; }
   catch { const r = document.createRange(); r.selectNodeContents(document.getElementById("phone")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Número seleccionado"; }
   setTimeout(() => b.textContent = "Copiar número", 2000);
 });
