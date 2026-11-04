@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="BRAVA'S · Moda circular en San Fabián. Ropa americana seleccionada: revisa talla, marca y valor de cada prenda y pide por WhatsApp.">
+<meta property="og:title" content="BRAVA'S · Moda circular">
+<meta property="og:description" content="Ropa americana seleccionada en San Fabián. Revisa el catálogo y pide por WhatsApp.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#AD9C92">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23AD9C92'/%3E%3Cg fill='none' stroke='%23262729' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 34c6 5 16 7 26 7s20-2 26-7'/%3E%3Cpath d='M20 28c0-8 5-14 12-14s12 6 12 14'/%3E%3C/g%3E%3C/svg%3E">
+<title>BRAVA'S Moda Circular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Karla:wght@400;500;700&display=swap">
+<style>
+/* Layout: portada corta con la marca; filtros fijos; grilla de prendas con el pie de foto de BRAVA'S (NOMBRE / TALLA / VALOR); ficha en hoja inferior; "Mi pedido" flotante que arma un solo WhatsApp; bloque para agendar visita. */
+:root{
+  --bg:#F1EDE2; --surface:#FBF9F4; --ink:#262729; --muted:#6B625A; --line:#E0D9CC;
+  --rose:#AD9C92; --rose-soft:#E7E0D3; --cta:#262729; --cta-ink:#F1EDE2; --price:#654632; --wa:#1F7A4D;
+  --warn:#97560F; --warn-soft:#F6E7D3;
+  --f-display:"Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body:"Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1B1917; --surface:#25221F; --ink:#F1EDE2; --muted:#ABA197; --line:#3A3530;
+  --rose:#AD9C92; --rose-soft:#302B27; --cta:#F1EDE2; --cta-ink:#1B1917; --price:#C9A78C; --wa:#5FC28E;
+  --warn:#E5A65E; --warn-soft:#3A2913; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#1B1917; --surface:#25221F; --ink:#F1EDE2; --muted:#ABA197; --line:#3A3530;
+  --rose:#AD9C92; --rose-soft:#302B27; --cta:#F1EDE2; --cta-ink:#1B1917; --price:#C9A78C; --wa:#5FC28E;
+  --warn:#E5A65E; --warn-soft:#3A2913; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;margin:0;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin:0;text-wrap:balance}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+
+/* Portada */
+.hero{padding-block:36px 26px;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center;border-bottom:1px solid var(--line)}
+.hat{width:72px;height:72px;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;grid-row:span 2}
+.hat svg{width:52px;height:52px}
+.word{font-family:var(--f-display);font-weight:500;font-size:clamp(2.4rem,9vw,4rem);letter-spacing:.2em;line-height:1}
+.tag{font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.facts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:.92rem}
+.facts span{display:inline-flex;align-items:center;gap:6px}
+.facts b{font-weight:700}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--rose);display:inline-block}
+
+/* Filtros */
+.bar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:4;background:var(--bg);padding-block:12px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chip{white-space:nowrap;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-weight:700;font-size:.88rem}
+.chip[aria-pressed="true"]{background:var(--cta);color:var(--cta-ink);border-color:var(--cta)}
+.selects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+select,input,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;min-height:44px}
+
+/* Grilla */
+main{padding-block:18px 130px;display:flex;flex-direction:column;gap:30px}
+.count{font-size:.9rem;color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}
+.item{background:none;border:0;padding:0;text-align:left;display:flex;flex-direction:column;gap:8px}
+.ph{position:relative;aspect-ratio:4/5;max-width:100%;background:var(--rose-soft);border-radius:4px;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.item:hover .ph img{transform:scale(1.03)}
+.ph .no{position:absolute;left:8px;bottom:8px;font-family:var(--f-display);font-size:.85rem;background:var(--bg);padding:1px 7px;border-radius:3px}
+.ph .res{position:absolute;inset:auto 0 0 0;background:rgba(33,28,25,.78);color:#FFF8F1;text-align:center;font-family:var(--f-display);text-transform:uppercase;letter-spacing:.12em;font-size:.82rem;padding:6px}
+.ph .in{position:absolute;right:8px;top:8px;background:var(--cta);color:var(--cta-ink);font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:999px}
+.cap{text-align:center;font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;line-height:1.25}
+.cap .n{font-size:.95rem;font-weight:500}
+.cap .t{font-size:.82rem;color:var(--muted)}
+.cap .v{font-size:.95rem;color:var(--price);font-weight:600}
+.empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:12px;padding:26px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.empty p{margin:0;max-width:40ch;color:var(--muted)}
+
+/* Visita y políticas */
+.visit{display:grid;grid-template-columns:1fr;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.visit p{margin:0}
+.visit form{display:flex;flex-direction:column;gap:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-weight:700;font-size:.88rem}
+.policy{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.policy div{border-top:2px solid var(--rose);padding-top:10px}
+.policy h3{font-size:.95rem;margin-bottom:4px}
+.policy p{margin:0;font-size:.92rem;color:var(--muted)}
+.contact{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.phone{font-family:var(--f-display);font-size:1.2rem;letter-spacing:.04em;user-select:all}
+footer{padding-block:24px 30px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted);text-align:center}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 16px;min-height:46px;font-weight:700;background:var(--cta);color:var(--cta-ink);text-decoration:none;text-align:center}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.ghost{background:var(--rose-soft);color:var(--ink)}
+.btn.small{min-height:36px;padding:6px 12px;font-size:.88rem}
+.btn.block{width:100%}
+
+/* Hoja */
+.sheet-back{position:fixed;inset:0;background:rgba(15,10,6,.55);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:640px;max-height:94%;overflow:auto;border-radius:18px 18px 0 0;
+  padding:16px max(16px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));display:flex;flex-direction:column;gap:14px}
+.sheet .head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sheet .x{background:none;border:0;font-size:1.7rem;line-height:1;padding:2px 8px;color:var(--muted)}
+.big{width:100%;max-width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:6px;background:var(--rose-soft)}
+.price{font-family:var(--f-display);font-size:1.6rem;color:var(--price)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.94rem;border-top:1px solid var(--line);padding-top:12px;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600;min-width:0}
+.desc{margin:0;font-size:1.02rem}
+.alert{margin:0;background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 12px;font-size:.92rem}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opts label{position:relative}
+.opts input{position:absolute;opacity:0;width:1px;height:1px}
+.opts span{display:inline-block;padding:9px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:.92rem}
+.opts input:checked + span{background:var(--cta);color:var(--cta-ink);border-color:var(--cta)}
+.opts input:focus-visible + span{outline:3px solid var(--rose);outline-offset:2px}
+.bag-row{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding-block:8px}
+.bag-row img{width:56px;height:70px;object-fit:cover;border-radius:4px;background:var(--rose-soft)}
+.bag-row button{background:none;border:0;color:var(--muted);font-size:1.3rem;padding:4px 8px}
+.small-note{font-size:.82rem;color:var(--muted);margin:0}
+
+.bagbtn{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:6;box-shadow:0 8px 22px rgba(20,12,6,.3);font-family:var(--f-display);text-transform:uppercase;letter-spacing:.08em;max-width:calc(100% - 32px)}
+
+@media (prefers-reduced-motion: reduce){ .ph img{transition:none} }
+@media (min-width:640px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} .visit{grid-template-columns:1fr 1.2fr} }
+@media (min-width:900px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width:380px){ .selects{grid-template-columns:1fr 1fr} .two{grid-template-columns:1fr} }
+</style>
+<style>[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hat" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="#262729" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34c6 5 16 7 26 7s20-2 26-7"/><path d="M6 34c-1-3 6-5 14-6"/><path d="M58 34c1-3-6-5-14-6"/><path d="M20 28c0-8 5-14 12-14s12 6 12 14"/><path d="M20 28c7 2 17 2 24 0"/><path d="M26 41c1 6 3 10 6 10s5-4 6-10"/></svg></div>
+    <div class="word">BRAVA'S</div>
+    <div class="tag">Tu estilo, tu esencia</div>
+    <div class="facts">
+      <span><span class="dot"></span><b>Moda circular</b> · ropa americana seleccionada</span>
+      <span><span class="dot"></span>San Fabián, Ñuble</span>
+      <span><span class="dot"></span>Retiro en casa o despacho</span>
+    </div>
+  </header>
+
+  <div class="bar" id="bar">
+    <div class="chips" id="tipos" role="group" aria-label="Tipo de prenda"></div>
+    <div class="selects">
+      <select id="f-talla" aria-label="Talla"><option value="">Toda talla</option></select>
+      <select id="f-genero" aria-label="Para quién"><option value="">Mujer y hombre</option></select>
+      <select id="f-orden" aria-label="Ordenar"><option value="nuevo">Más nuevas</option><option value="barato">Menor precio</option><option value="caro">Mayor precio</option></select>
+    </div>
+  </div>
+
+  <main>
+    <section aria-label="Prendas">
+      <p class="count" id="count">Cargando prendas…</p>
+      <div class="grid" id="grid" style="margin-top:12px"></div>
+    </section>
+
+    <section class="visit" id="visita" aria-labelledby="v-h">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <h2 id="v-h">Ven a probarte la ropa</h2>
+        <p class="muted">Agenda una visita en San Fabián y revisa las prendas en persona. Elige día y hora; te confirmamos por WhatsApp.</p>
+        <div class="contact"><span class="phone" id="phone">+56 9 3740 4613</span><button class="btn ghost small" id="copy" type="button">Copiar número</button></div>
+      </div>
+      <form id="f-visita">
+        <div class="field"><label for="v-nombre">Tu nombre</label><input id="v-nombre" maxlength="50" required autocomplete="name"></div>
+        <div class="two">
+          <div class="field"><label for="v-dia">Día</label><input id="v-dia" type="date" required></div>
+          <div class="field"><label for="v-hora">Hora</label><select id="v-hora"><option>10:00</option><option>11:00</option><option>12:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option></select></div>
+        </div>
+        <div class="field"><label for="v-que">Qué te gustaría ver</label><input id="v-que" maxlength="120" placeholder="Ej: vestidos talla M, leñadoras"></div>
+        <a class="btn wa block" id="v-send" href="#" target="_blank" rel="noopener">Pedir visita por WhatsApp</a>
+        <p class="small-note">Se abre WhatsApp con el mensaje listo; solo tienes que enviarlo.</p>
+      </form>
+    </section>
+
+    <section aria-labelledby="p-h" style="display:flex;flex-direction:column;gap:14px">
+      <h2 id="p-h">Cómo comprar</h2>
+      <div class="policy">
+        <div><h3>1. Elige</h3><p>Agrega las prendas a tu pedido. Cada una es única: hay una sola de cada número.</p></div>
+        <div><h3>2. Escríbenos</h3><p>Envía tu pedido por WhatsApp y te la reservamos. Pagas en efectivo o por transferencia.</p></div>
+        <div><h3>3. Recíbela</h3><p>Retírala en San Fabián o pide despacho; te contamos el costo según tu dirección.</p></div>
+        <div><h3>Importante</h3><p>Sin cambios ni devoluciones. Revisa la talla y los detalles en la ficha de cada prenda.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer>BRAVA'S · Moda circular · San Fabián · <a href="https://www.instagram.com/bravas_71/" target="_blank" rel="noopener">Instagram @bravas_71</a><br><span id="upd"></span></footer>
+</div>
+
+<button class="btn bagbtn" id="bagbtn" hidden>Mi pedido</button>
+<div id="sheet-root"></div>
+
+<script>
+const WA = "56937404613";
+let data = { prendas: [], actualizado: "" }, filtroTipo = "", bolsa = [];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const plata = n => "$" + Math.round(n || 0).toLocaleString("es-CL");
+const waLink = txt => "https://wa.me/" + WA + "?text=" + encodeURIComponent(txt);
+const talla = p => [p.talla, p.tallaCL && p.tallaCL !== p.talla ? "(" + p.tallaCL + ")" : ""].filter(Boolean).join(" ");
+const linea = p => `#${p.num} ${p.nombre}${p.marca ? " " + p.marca : ""}${p.talla ? ", talla " + p.talla : ""} (${plata(p.precio)})`;
+
+try { bolsa = JSON.parse(localStorage.getItem("bravas-bolsa") || "[]"); if (!Array.isArray(bolsa)) bolsa = []; } catch { bolsa = []; }
+function guardarBolsa(){ try { localStorage.setItem("bravas-bolsa", JSON.stringify(bolsa)); } catch {} }
+
+async function cargar(){
+  try {
+    const r = await fetch("catalogo.json?t=" + Date.now());
+    if (!r.ok) throw 0;
+    const j = await r.json();
+    data = { prendas: Array.isArray(j.prendas) ? j.prendas : [], actualizado: j.actualizado || "" };
+  } catch { data = { prendas: [], actualizado: "", error: true }; }
+  const ids = new Set(data.prendas.filter(p => p.situacion === "disponible").map(p => p.id));
+  bolsa = bolsa.filter(id => ids.has(id)); guardarBolsa();
+  armarFiltros(); pintar(); pintarBolsa();
+  if (data.actualizado) { const d = new Date(data.actualizado); document.getElementById("upd").textContent = "Catálogo actualizado el " + d.toLocaleDateString("es-CL", { day: "numeric", month: "long" }) + " a las " + d.toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }); }
+}
+
+function armarFiltros(){
+  const tipos = [...new Set(data.prendas.map(p => p.tipo).filter(Boolean))].sort();
+  document.getElementById("tipos").innerHTML = [["", "Todo"], ...tipos.map(t => [t, t])].map(([v, t]) =>
+    `<button class="chip" data-tipo="${esc(v)}" aria-pressed="${v === filtroTipo}">${esc(t)}</button>`).join("");
+  const llenar = (id, vals, base) => { const s = document.getElementById(id), cur = s.value; s.innerHTML = `<option value="">${base}</option>` + vals.map(v => `<option${v === cur ? " selected" : ""}>${esc(v)}</option>`).join(""); };
+  llenar("f-talla", [...new Set(data.prendas.map(p => p.talla).filter(Boolean))].sort((a, b) => a.localeCompare(b, "es", { numeric: true })), "Toda talla");
+  llenar("f-genero", [...new Set(data.prendas.map(p => p.genero).filter(Boolean))].sort(), "Para todos");
+}
+
+function pintar(){
+  const tl = document.getElementById("f-talla").value, gn = document.getElementById("f-genero").value, ord = document.getElementById("f-orden").value;
+  let ps = data.prendas.filter(p => (!filtroTipo || p.tipo === filtroTipo) && (!tl || p.talla === tl) && (!gn || p.genero === gn));
+  ps.sort((a, b) => (a.situacion === "reservada") - (b.situacion === "reservada") ||
+    (ord === "barato" ? a.precio - b.precio : ord === "caro" ? b.precio - a.precio : (b.num || 0) - (a.num || 0)));
+  const disp = ps.filter(p => p.situacion === "disponible").length;
+  const grid = document.getElementById("grid"), count = document.getElementById("count");
+  if (!data.prendas.length) {
+    count.textContent = "";
+    grid.style.display = "block";
+    grid.innerHTML = `<div class="empty"><h3>${data.error ? "No pudimos cargar el catálogo" : "Estamos subiendo las prendas"}</h3><p>${data.error ? "Recarga la página en un momento." : "Muy pronto vas a ver aquí cada prenda con su talla, marca y valor. Mientras tanto, mira las novedades en Instagram o agenda una visita."}</p><a class="btn ghost" href="https://www.instagram.com/bravas_71/" target="_blank" rel="noopener">Ver Instagram @bravas_71</a></div>`;
+    return;
+  }
+  grid.style.display = "";
+  count.textContent = `${disp} prenda${disp === 1 ? "" : "s"} disponible${disp === 1 ? "" : "s"}` + (ps.length - disp ? ` · ${ps.length - disp} reservada${ps.length - disp === 1 ? "" : "s"}` : "");
+  grid.innerHTML = ps.length ? ps.map(p => `<button class="item" data-ver="${esc(p.id)}">
+      <div class="ph">${p.foto ? `<img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy">` : ""}<span class="no">#${p.num}</span>
+        ${bolsa.includes(p.id) ? `<span class="in">En tu pedido</span>` : ""}${p.situacion === "reservada" ? `<span class="res">Reservada</span>` : ""}</div>
+      <div class="cap"><div class="n">${esc(p.nombre)}${p.marca ? " " + esc(p.marca) : ""}</div><div class="t">${p.talla ? "Talla " + esc(p.talla) : "&nbsp;"}</div><div class="v num">Valor ${plata(p.precio)}</div></div>
+    </button>`).join("") : `<div class="empty" style="grid-column:1/-1"><p>No hay prendas con esos filtros.</p></div>`;
+}
+
+function abrir(html){ document.getElementById("sheet-root").innerHTML = `<div class="sheet-back" data-close><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`; }
+function cerrar(){ document.getElementById("sheet-root").innerHTML = ""; }
+
+function ficha(id){
+  const p = data.prendas.find(x => x.id === id); if (!p) return;
+  const filas = [["Marca", p.marca], ["Talla", talla(p)], ["Para", p.genero], ["Calce", p.calce], ["Largo", p.largo], ["Estilo", p.estilo], ["Tela", p.tela], ["Color", p.color], ["Estado", p.estado], ["Temporada", p.temporada]].filter(r => r[1]);
+  const enBolsa = bolsa.includes(p.id);
+  const acciones = p.situacion === "reservada"
+    ? `<p class="alert">Esta prenda está reservada. Si la reserva se libera, te avisamos.</p><a class="btn wa block" href="${waLink(`Hola BRAVA'S! Me interesa la prenda ${linea(p)} que está reservada. ¿Me avisan si se libera?`)}" target="_blank" rel="noopener">Avísame si se libera</a>`
+    : `<button class="btn block ${enBolsa ? "ghost" : ""}" data-bolsa="${esc(p.id)}">${enBolsa ? "Quitar de mi pedido" : "Agregar a mi pedido"}</button>
+       <a class="btn wa block" href="${waLink(`Hola BRAVA'S! Me interesa la prenda ${linea(p)}. ¿Sigue disponible?`)}" target="_blank" rel="noopener">Preguntar por WhatsApp</a>`;
+  abrir(`<div class="head"><div><div class="muted" style="font-family:var(--f-display);letter-spacing:.06em">#${p.num} · ${esc(p.tipo || "")}</div><h2>${esc(p.nombre)}</h2></div><button class="x" data-close-btn aria-label="Cerrar">×</button></div>
+    ${p.foto ? `<img class="big" src="${esc(p.foto)}" alt="${esc(p.nombre)}">` : ""}
+    <div class="price num">Valor ${plata(p.precio)}</div>
+    ${p.descripcion ? `<p class="desc">${esc(p.descripcion)}</p>` : ""}
+    ${p.detalles ? `<p class="alert">Detalle: ${esc(p.detalles)}</p>` : ""}
+    <dl class="kv">${filas.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+    ${acciones}
+    <p class="small-note">Sin cambios ni devoluciones. Si tienes dudas de la talla, pregúntanos las medidas.</p>`);
+}
+
+function pintarBolsa(){
+  const b = document.getElementById("bagbtn");
+  const ps = bolsa.map(id => data.prendas.find(p => p.id === id)).filter(Boolean);
+  b.hidden = !ps.length;
+  b.textContent = `Mi pedido · ${ps.length} · ${plata(ps.reduce((s, p) => s + (p.precio || 0), 0))}`;
+}
+function verBolsa(){
+  const ps = bolsa.map(id => data.prendas.find(p => p.id === id)).filter(Boolean);
+  if (!ps.length) return cerrar();
+  const total = ps.reduce((s, p) => s + (p.precio || 0), 0);
+  abrir(`<div class="head"><h2>Mi pedido</h2><button class="x" data-close-btn aria-label="Cerrar">×</button></div>
+    <div>${ps.map(p => `<div class="bag-row">${p.foto ? `<img src="${esc(p.foto)}" alt="">` : "<span></span>"}<div><b>#${p.num} ${esc(p.nombre)}</b><div class="muted" style="font-size:.88rem">${p.talla ? "Talla " + esc(p.talla) + " · " : ""}${plata(p.precio)}</div></div><button data-bolsa="${esc(p.id)}" aria-label="Quitar #${p.num}">×</button></div>`).join("")}</div>
+    <div style="display:flex;justify-content:space-between;font-weight:700"><span>Total prendas</span><span class="num">${plata(total)}</span></div>
+    <form id="f-pedido" style="display:flex;flex-direction:column;gap:12px">
+      <div class="field"><span style="font-weight:700;font-size:.88rem" id="ent-l">Entrega</span><div class="opts" role="radiogroup" aria-labelledby="ent-l">
+        <label><input type="radio" name="ent" value="retiro" id="ent-r" checked><span>Retiro en San Fabián</span></label>
+        <label><input type="radio" name="ent" value="despacho" id="ent-d"><span>Despacho</span></label></div></div>
+      <div class="field" id="dir-f" hidden><label for="p-dir">Dirección y comuna</label><input id="p-dir" maxlength="120" autocomplete="street-address"></div>
+      <div class="field"><label for="p-nombre">Tu nombre</label><input id="p-nombre" maxlength="50" autocomplete="name"></div>
+      <div class="field"><span style="font-weight:700;font-size:.88rem" id="pg-l">Pago</span><div class="opts" role="radiogroup" aria-labelledby="pg-l">
+        <label><input type="radio" name="pg" value="Transferencia" id="pg-t" checked><span>Transferencia</span></label>
+        <label><input type="radio" name="pg" value="Efectivo" id="pg-e"><span>Efectivo</span></label></div></div>
+      <a class="btn wa block" id="p-send" href="#" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
+      <p class="small-note">Se abre WhatsApp con tu pedido escrito. Te confirmamos la reserva y, si pides despacho, el costo del envío.</p>
+    </form>`);
+  const f = document.getElementById("f-pedido");
+  const act = () => {
+    const ent = f.querySelector("input[name=ent]:checked").value, nombre = document.getElementById("p-nombre").value.trim();
+    document.getElementById("dir-f").hidden = ent !== "despacho";
+    const dir = document.getElementById("p-dir").value.trim(), pago = f.querySelector("input[name=pg]:checked").value;
+    const txt = `Hola BRAVA'S! Quiero hacer un pedido${nombre ? ", soy " + nombre : ""}:\n` + ps.map(p => "• " + linea(p)).join("\n") +
+      `\nTotal prendas: ${plata(total)}\nEntrega: ${ent === "despacho" ? "despacho a " + (dir || "(te paso la dirección)") : "retiro en San Fabián"}\nPago: ${pago}`;
+    document.getElementById("p-send").href = waLink(txt);
+  };
+  f.addEventListener("input", act); f.addEventListener("change", act); f.addEventListener("submit", e => e.preventDefault());
+  act();
+}
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.matches("[data-close]") ) return cerrar();
+  if (t.closest("[data-close-btn]")) return cerrar();
+  const chip = t.closest("[data-tipo]"); if (chip) { filtroTipo = chip.dataset.tipo; armarFiltros(); pintar(); return; }
+  const ver = t.closest("[data-ver]"); if (ver) return ficha(ver.dataset.ver);
+  const bo = t.closest("[data-bolsa]");
+  if (bo) {
+    const id = bo.dataset.bolsa, enBag = document.querySelector(".bag-row") !== null;
+    bolsa = bolsa.includes(id) ? bolsa.filter(x => x !== id) : [...bolsa, id];
+    guardarBolsa(); pintar(); pintarBolsa();
+    if (enBag) verBolsa(); else ficha(id);
+    return;
+  }
+  if (t.closest("#bagbtn")) return verBolsa();
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+["f-talla","f-genero","f-orden"].forEach(id => document.getElementById(id).addEventListener("change", pintar));
+
+document.getElementById("copy").addEventListener("click", async e => {
+  const b = e.currentTarget;
+  try { await navigator.clipboard.writeText("+56937404613"); b.textContent = "Copiado"; }
+  catch { const r = document.createRange(); r.selectNodeContents(document.getElementById("phone")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Número seleccionado"; }
+  setTimeout(() => b.textContent = "Copiar número", 2000);
+});
+(() => { const d = new Date(); d.setDate(d.getDate() + 1); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); const v = document.getElementById("v-dia"); v.min = new Date(Date.now() - new Date().getTimezoneOffset()*60000).toISOString().slice(0, 10); v.value = d.toISOString().slice(0, 10); })();
+function linkVisita(){
+  const n = document.getElementById("v-nombre").value.trim(), dia = document.getElementById("v-dia").value, h = document.getElementById("v-hora").value, q = document.getElementById("v-que").value.trim();
+  let fecha = dia; if (dia) { const [y, m, d] = dia.split("-"); fecha = new Date(+y, +m - 1, +d).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }); }
+  const txt = `Hola BRAVA'S!${n ? " Soy " + n + "." : ""} Me gustaría ir a ver ropa${fecha ? " el " + fecha : ""} a las ${h}.` + (q ? ` Me interesa: ${q}.` : "") + " ¿Les acomoda?";
+  document.getElementById("v-send").href = waLink(txt);
+}
+const fv = document.getElementById("f-visita");
+fv.addEventListener("input", linkVisita); fv.addEventListener("change", linkVisita); fv.addEventListener("submit", e => e.preventDefault());
+linkVisita();
+
+cargar();
+</script>
+
+</body>
+</html>
