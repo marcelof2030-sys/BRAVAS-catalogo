@@ -1,1 +1,27 @@
-{"actualizado":"","prendas":[]}
+{
+ "actualizado": "2026-11-08T10:20:28-03:00",
+ "prendas": [
+  {
+   "id": "pmw7uxq8xi08t",
+   "num": 1,
+   "nombre": "Vestido camisero largo con aberturas",
+   "tipo": "Vestido",
+   "marca": "YAYA",
+   "talla": "38",
+   "tallaCL": "38 (aprox. M)",
+   "genero": "Mujer",
+   "calce": "Regular",
+   "largo": "Largo",
+   "estilo": "Casual, Camisero",
+   "tela": "Tela fluida tipo viscosa/lyocell (no se ve la composición en la etiqueta)",
+   "color": "Café chocolate liso",
+   "estado": "Buen estado",
+   "detalles": "Se ven algunas arrugas por el colgado y pequeños hilos sueltos en el borde del bajo. No se aprecian manchas ni roturas.",
+   "temporada": "Media estación",
+   "descripcion": "Vestido camisero largo en un tono café chocolate muy lindo, con cuello clásico, hombreras con botones y cierre de botones ocultos. Tiene aberturas laterales y mangas que se pueden arremangar, así que queda cómodo y con buen movimiento. Se ve genial con zapatillas blancas para el día a día o con botines y un cinturón para marcar la cintura.",
+   "precio": 8000,
+   "situacion": "disponible",
+   "foto": "fotos/cf78726f6fcfae9c73f664b3ab673fcb.jpg"
+  }
+ ]
+}
